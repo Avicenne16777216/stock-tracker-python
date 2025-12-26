@@ -1,0 +1,61 @@
+Title: Automated Stock Price Visualization Using Python: A Case Study of API Integration and Data Visualization
+
+Authors: Kikupa Kasi Patient
+Date: December 26, 2025
+
+
+Abstract
+This paper presents a Python script designed to fetch and visualize stock price data using the Alpha Vantage API. The script demonstrates efficient data handling, user interaction, and visualization techniques, with a focus on robustness and clarity. The use of Matplotlib's TkAgg backend ensures compatibility for GUI-based environments, while the modular structure allows for easy adaptation to different datasets.
+
+
+1. Introduction
+Financial data analysis is a critical task for investors and analysts. This script automates the process of fetching daily stock prices and visualizing them in a user-friendly manner. It leverages the Alpha Vantage API for data retrieval and Matplotlib for visualization, showcasing best practices in API integration, error handling, and data presentation.
+
+
+2. Methodology
+
+2.1 Data Retrieval
+The script begins by prompting the user to input a stock symbol (e.g., NVDA). It then fetches daily time series data from the Alpha Vantage API using the `requests` library. The API key is securely loaded from an environment variable using the `dotenv` library, ensuring sensitive information is not hard-coded.
+
+Key steps:
+- User input for stock symbol.
+- API request to Alpha Vantage with error handling.
+- JSON response parsing to extract time series data.
+
+2.2 Data Processing
+The script processes the API response to extract the latest 30 days of closing prices. It efficiently handles the data by:
+- Storing dates and prices in separate lists.
+- Limiting the dataset to 30 entries (or fewer if less data is available).
+- Rounding prices to two decimal places for readability.
+
+2.3 Visualization
+The script uses Matplotlib to create a line plot of the stock's closing prices over time. Key visualization features include:
+- Customized figure size and background colors for clarity.
+- Rotated x-axis labels for better readability.
+- Grid lines and axis labels for context.
+- The `TkAgg` backend ensures the plot renders in a GUI window.
+
+3. Code Structure
+
+3.1 Core Components
+- User Input: The script starts with a prompt for the stock symbol.
+- API Integration: Uses `requests` to fetch data and `json` to parse it.
+- Error Handling: Checks for API errors (e.g., invalid stock symbols).
+- Data Processing: Extracts and formats dates and prices.
+- Visualization: Uses Matplotlib to plot the data with custom styling.
+
+3.2 Key Code Snippets
+```python
+> API Request
+response = requests.get(url)
+response.raise_for_status()
+data = response.json()
+
+> Data Extraction
+all_dates = list(time_series.keys())
+num_days_to_display = min(30, len(all_dates))
+
+> Visualization
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.plot(date_history, price_history, color="#42858C", linewidth=2)
+plt.show()

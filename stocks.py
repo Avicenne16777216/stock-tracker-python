@@ -1,29 +1,31 @@
 import matplotlib.pyplot as plt
-plt.switch_backend('TkAgg')
+plt.switch_backend('TkAgg')  # Set Matplotlib backend to Tkinter for Graphical User Interface (GUI) display
 import requests
 import json 
+import os
+from dotenv import load_dotenv
 
 stock_symbol = input("Please enter a stock symbol (e.g., AAPL): ").upper()
 
-api_key = "65BQCHHQEG6OLYHX"
-url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={stock_symbol}&apikey={api_key}"
+load_dotenv()
+API_KEY = os.getenv("ALPHA_VANTAGE_KEY")
+url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={stock_symbol}&apikey={API_KEY}"
 
 response = requests.get(url)
 response.raise_for_status()
 data = response.json()
 
-# Initialized outside the loop, as before.
 price_history = [] 
 date_history = []
 
-# Check if the API returned an error message
+# This check if the API returned an error message
 if "Error Message" in data:
     print("Sorry, that stock symbol was not found.")
 else:
     # 1. Access the daily time series data
     time_series = data.get("Time Series (Daily)", {})
     
-    # --- IMPORTANT PART START HERE ---
+    # --- THE IMPORTANT PART START HERE ---
     
     # Get the list of dates ONCE for efficiency and safety
     all_dates = list(time_series.keys()) 
